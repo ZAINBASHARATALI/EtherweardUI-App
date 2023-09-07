@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:field_suggestion/field_suggestion.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ethelweard95/utils/colors.dart';
@@ -42,13 +43,14 @@ class ScreenTwo extends StatelessWidget {
               'Tag Location',
               style: context.bold16,
             ),
-            TextFieldWidget(
-              hintText: 'Enter Location',
-              suffixIcon: Icon(
-                Icons.search,
-                color: AppColors.black.withOpacity(0.4),
-              ),
-            ),
+            const LocationTagWidget(),
+            // TextFieldWidget(
+            //   hintText: 'Enter Location',
+            //   suffixIcon: Icon(
+            //     Icons.search,
+            //     color: AppColors.black.withOpacity(0.4),
+            //   ),
+            // ),
             Text(
               'Describe',
               style: context.bold16,
@@ -102,6 +104,48 @@ class HashTag extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class LocationTagWidget extends StatelessWidget {
+  const LocationTagWidget({super.key});
+  static const List<String> cities = [
+    'Amsterdam',
+    'Munich',
+    'Bavaria',
+    'Stutgard'
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 15),
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 3),
+      decoration: BoxDecoration(
+        color: AppColors.lightGrey,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: FieldSuggestion(
+        textController: TextEditingController(),
+        suggestions: cities,
+        search: (item, input) {
+          return item.toString().toLowerCase().contains(input.toLowerCase());
+        },
+        itemBuilder: (context, index) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Text(
+              cities[index],
+              style: context.regular12.copyWith(color: AppColors.black),
+            ),
+          );
+        },
+        inputDecoration: const InputDecoration(
+          hintText: 'Enter Location', // optional
+          border: InputBorder.none,
+        ),
       ),
     );
   }
@@ -174,6 +218,12 @@ class ImagesPickerWidget extends StatelessWidget {
                 const ImageItem(
                   imagePath: 'assets/stars.jpg',
                 ),
+                const ImageItem(
+                  imagePath: 'assets/stars.jpg',
+                ),
+                const ImageItem(
+                  imagePath: 'assets/stars.jpg',
+                ),
                 Container(
                   height: context.height * 0.16,
                   width: context.height * 0.09,
@@ -210,7 +260,7 @@ class ImageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(right: 20),
+      margin: const EdgeInsets.only(right: 15),
       height: context.height * 0.16,
       width: context.height * 0.16,
       decoration: BoxDecoration(

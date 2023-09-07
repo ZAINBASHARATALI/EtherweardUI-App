@@ -31,6 +31,7 @@ dependencies:
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
   device_preview: ^1.1.0
+  field_suggestion: ^0.2.5
   flutter:
     sdk: flutter
   flutter_swipe_detector: ^2.0.0

@@ -112,6 +112,7 @@ class _ScreenFourState extends State<ScreenFour> {
                               });
                             },
                             height: 100,
+                            scrollDirection: Axis.horizontal,
                             viewportFraction: 0.3,
                             padEnds: false,
                             //enlargeCenterPage: true,

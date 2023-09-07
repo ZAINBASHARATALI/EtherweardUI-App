@@ -27,7 +27,6 @@ class ScreenSeven extends StatelessWidget {
               children: [
                 Container(
                   height: 50,
-                  width: 50,
                   alignment: Alignment.bottomLeft,
                   child: GestureDetector(
                     onTap: () {
@@ -45,7 +44,7 @@ class ScreenSeven extends StatelessWidget {
             ),
             Positioned(
               top: context.height * 0.125,
-              left: 35,
+              left: 10,
               child: const TripTagCard(
                 title: 'Tour Eiffel',
                 imagePath: 'assets/book.png',
@@ -53,7 +52,7 @@ class ScreenSeven extends StatelessWidget {
             ),
             Positioned(
               top: context.height * 0.275,
-              left: 50,
+              left: 25,
               child: const TripTagCard(
                 title: 'Tour Eiffel',
                 imagePath: 'assets/headphone.png',
