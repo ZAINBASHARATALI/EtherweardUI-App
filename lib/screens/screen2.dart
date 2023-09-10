@@ -10,64 +10,55 @@ class ScreenTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      //height: context.height * 0.75,
-      width: context.width,
-      decoration: const BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(32),
-          topRight: Radius.circular(32),
-        ),
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SingleChildScrollView(
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: MediaQuery.viewInsetsOf(context),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  'Share Your Journey',
-                  style: context.bold24.copyWith(color: AppColors.black),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Share Your Journey',
+                      style: context.bold24.copyWith(color: AppColors.black),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(Icons.close),
+                    )
+                  ],
                 ),
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: const Icon(Icons.close),
+                const ImagesPickerWidget(),
+                Text(
+                  'Tag Location',
+                  style: context.bold16,
+                ),
+                const LocationTagWidget(),
+                Text(
+                  'Describe',
+                  style: context.bold16,
+                ),
+                const TextFieldWidget(
+                  hintText: 'Type your text here...',
+                  lines: 5,
+                  height: null,
+                  maxLength: 120,
+                ),
+                const Row(
+                  children: [
+                    HashTag(),
+                    HashTag(),
+                  ],
                 )
               ],
             ),
-            const ImagesPickerWidget(),
-            Text(
-              'Tag Location',
-              style: context.bold16,
-            ),
-            const LocationTagWidget(),
-            // TextFieldWidget(
-            //   hintText: 'Enter Location',
-            //   suffixIcon: Icon(
-            //     Icons.search,
-            //     color: AppColors.black.withOpacity(0.4),
-            //   ),
-            // ),
-            Text(
-              'Describe',
-              style: context.bold16,
-            ),
-            const TextFieldWidget(
-              hintText: 'Type your text here...',
-              lines: 5,
-              height: null,
-              maxLength: 120,
-            ),
-            const Row(
-              children: [
-                HashTag(),
-                HashTag(),
-              ],
-            )
-          ],
+          ),
         ),
       ),
     );

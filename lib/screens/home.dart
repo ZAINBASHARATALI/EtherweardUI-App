@@ -10,6 +10,8 @@ import 'package:ethelweard95/utils/context.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 
+import 'screen7.dart';
+
 PageController pageCont = PageController(initialPage: 0);
 
 class HomeScreen extends StatelessWidget {
@@ -19,9 +21,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.grey,
+      backgroundColor: AppColors.black,
       body: MainScreenDecider(),
-      bottomNavigationBar: NavBar(),
+      //bottomNavigationBar: NavBar(),
     );
   }
 }
@@ -69,7 +71,7 @@ class _NavBarState extends State<NavBar> {
         width: context.width,
         color: navCont.navIndex.value == 2
             ? AppColors.white
-            : AppColors.black.withOpacity(0.5),
+            : AppColors.black.withOpacity(0.3),
         alignment: Alignment.topCenter,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -89,14 +91,16 @@ class _NavBarState extends State<NavBar> {
               isSelected: navCont.navIndex.value == 1,
               onPressed: () {
                 navCont.setNav(1);
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return const ScreenSeven();
+                  },
+                ));
               },
             ),
             GestureDetector(
               onTap: () {
                 showModalBottomSheet(
-                  // constraints: BoxConstraints.loose(
-                  //   Size(context.width, context.height * 0.8),
-                  // ),
                   isScrollControlled: true,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(

@@ -1,163 +1,203 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ethelweard95/screens/screen1.dart';
+import 'package:ethelweard95/widgets/filteritem.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ethelweard95/screens/screen4.dart';
 import 'package:ethelweard95/utils/colors.dart';
 import 'package:ethelweard95/utils/context.dart';
+import 'package:inner_shadow_widget/inner_shadow_widget.dart';
 
 class ScreenThree extends StatelessWidget {
-  final PageController pageCont;
-  const ScreenThree({Key? key, required this.pageCont}) : super(key: key);
+  final String bgImagePath;
+  const ScreenThree({Key? key, required this.bgImagePath}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        const Spacer(),
-        Container(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-          decoration: const BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(32),
-              topRight: Radius.circular(32),
+        Stack(
+          children: [
+            InnerShadow(
+              color: AppColors.black.withOpacity(0.6),
+              offset: const Offset(0, 250),
+              blur: 250,
+              child: Image.asset(
+                bgImagePath,
+                width: context.width,
+                height: context.height,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  child: Image.asset(
-                    'assets/back.png',
-                    scale: 3,
-                    color: AppColors.black,
+                Container(
+                  height: 40,
+                  padding:
+                      const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                  child: const Row(
+                    children: [
+                      Icon(Icons.filter_alt_outlined, color: AppColors.white),
+                      SizedBox(width: 10),
+                      FilterItem(title: 'Popular'),
+                      FilterItem(title: 'Nearby'),
+                      FilterItem(title: 'For You'),
+                    ],
                   ),
-                  onTap: () => pageCont.animateToPage(0,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.linear),
                 ),
-                const SizedBox(height: 10),
-                Row(
+                SizedBox(height: context.height * 0.9)
+              ],
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            const Spacer(),
+            Expanded(
+              flex: 5,
+              child: Container(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                decoration: const BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(32),
+                    topRight: Radius.circular(32),
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset('assets/profilepic.png', scale: 1.5),
-                    const SizedBox(width: 5),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '@RebeccaWilson',
-                          style: context.regular14
-                              .copyWith(color: AppColors.black),
+                    GestureDetector(
+                        child: Image.asset(
+                          'assets/back.png',
+                          scale: 3,
+                          color: AppColors.black,
                         ),
-                        Text(
-                          'Venice, Egypt',
-                          style: context.regular10.copyWith(
-                            color: AppColors.black.withOpacity(0.4),
-                            height: 1.5,
-                            fontSize: 12,
+                        onTap: () => fpCont.flipRight()),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Image.asset('assets/profilepic.png', scale: 1.5),
+                        const SizedBox(width: 5),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '@RebeccaWilson',
+                              style: context.regular14
+                                  .copyWith(color: AppColors.black),
+                            ),
+                            Text(
+                              'Venice, Egypt',
+                              style: context.regular10.copyWith(
+                                color: AppColors.black.withOpacity(0.4),
+                                height: 1.5,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Venice, often referred to as the "Floating City," is a captivating and unique destination located in north-eastern Italy. Built on a network of 118 small islands in the Venetian Lagoon, it is renowned for its enchanting canals and elegant bridges',
+                      style: context.regular12
+                          .copyWith(color: AppColors.black, height: 1.35),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      '#venice  #canal  #bridges  #serene',
+                      style: context.regular12
+                          .copyWith(color: AppColors.skyBlue, height: 1),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      alignment: Alignment.topCenter,
+                      width: context.width,
+                      child: CarouselSlider.builder(
+                        itemCount: 3,
+                        options: CarouselOptions(
+                          //height: context.width * 0.85,
+                          viewportFraction: 1,
+                          enableInfiniteScroll: false,
+                        ),
+                        itemBuilder: (context, index, realIndex) {
+                          return CarouselItem(
+                            imagePath: 'assets/venice.jpg',
+                            length: 3,
+                            index: index,
+                            onExpandClick: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return const ScreenFour();
+                                },
+                              ));
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.favorite_outline_sharp),
+                        const SizedBox(width: 15),
+                        const Icon(Icons.ios_share_outlined),
+                        const SizedBox(width: 15),
+                        const Icon(Icons.copy),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 9,
+                            vertical: 7,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.black,
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: Text(
+                            'View Map',
+                            style: context.regular12,
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    const SizedBox(height: 10),
                   ],
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  'Venice, often referred to as the "Floating City," is a captivating and unique destination located in north-eastern Italy. Built on a network of 118 small islands in the Venetian Lagoon, it is renowned for its enchanting canals and elegant bridges',
-                  style: context.regular12
-                      .copyWith(color: AppColors.black, height: 1.35),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  '#venice  #canal  #bridges  #serene',
-                  style: context.regular12
-                      .copyWith(color: AppColors.skyBlue, height: 1),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  alignment: Alignment.topCenter,
-                  width: context.width,
-                  child: CarouselSlider.builder(
-                    itemCount: 3,
-                    options: CarouselOptions(
-                      //height: context.width * 0.85,
-                      viewportFraction: 1,
-                      enableInfiniteScroll: false,
-                    ),
-                    itemBuilder: (context, index, realIndex) {
-                      return CarouselItem(
-                        imagePath: 'assets/venice.jpg',
-                        length: 3,
-                        index: index,
-                        onExpandClick: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return const ScreenFour();
-                            },
-                          ));
-                        },
-                      );
-                    },
-                  ),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.favorite_outline_sharp),
-                    const SizedBox(width: 15),
-                    const Icon(Icons.ios_share_outlined),
-                    const SizedBox(width: 15),
-                    const Icon(Icons.copy),
-                    const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 9,
-                        vertical: 7,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.black,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Text(
-                        'View Map',
-                        style: context.regular12,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-              ],
+              ),
             ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          color: AppColors.black,
-          width: context.width,
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/star.png',
-                scale: 3,
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+              color: AppColors.black,
+              width: context.width,
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/star.png',
+                    scale: 3,
+                  ),
+                  const SizedBox(width: 3),
+                  Image.asset(
+                    'assets/star.png',
+                    scale: 3,
+                  ),
+                  const SizedBox(width: 3),
+                  Image.asset(
+                    'assets/star.png',
+                    scale: 3,
+                  ),
+                  const SizedBox(width: 30),
+                  Text('812 Reviews (Only for Ads)', style: context.regular12),
+                ],
               ),
-              const SizedBox(width: 3),
-              Image.asset(
-                'assets/star.png',
-                scale: 3,
-              ),
-              const SizedBox(width: 3),
-              Image.asset(
-                'assets/star.png',
-                scale: 3,
-              ),
-              const SizedBox(width: 30),
-              Text('812 Reviews (Only for Ads)', style: context.regular12),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

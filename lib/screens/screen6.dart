@@ -1,14 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ethelweard95/screens/screen7.dart';
-import 'package:ethelweard95/utils/colors.dart';
 import 'package:flutter/material.dart';
-
-import 'package:ethelweard95/utils/context.dart';
 import 'package:inner_shadow_widget/inner_shadow_widget.dart';
 
-class ScreenSix extends StatelessWidget {
-  const ScreenSix({super.key});
+import 'package:ethelweard95/utils/colors.dart';
+import 'package:ethelweard95/utils/context.dart';
 
+class ScreenSix extends StatelessWidget {
+  final String bgImagePath;
+  const ScreenSix({Key? key, required this.bgImagePath}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,11 +20,16 @@ class ScreenSix extends StatelessWidget {
               color: AppColors.black.withOpacity(0.5),
               offset: const Offset(0, 200),
               blur: 150,
-              child: Image.asset(
-                'assets/world.jpg',
-                height: context.height,
-                width: context.width,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: bgImagePath.contains('world')
+                    ? 'expandTop'
+                    : 'expandBottom',
+                child: Image.asset(
+                  bgImagePath,
+                  height: context.height,
+                  width: context.width,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Container(
@@ -49,25 +53,13 @@ class ScreenSix extends StatelessWidget {
                   Text('Build your trip', style: context.bold32),
                   const Spacer(flex: 6),
                   TripCard(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return const ScreenSeven();
-                        },
-                      ));
-                    },
+                    onTap: () {},
                     title: 'Do it yourself',
                     imagePath: 'assets/equipment.jpeg',
                   ),
                   const SizedBox(height: 30),
                   TripCard(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return const ScreenSeven();
-                        },
-                      ));
-                    },
+                    onTap: () {},
                     title: 'AI generation',
                     imagePath: 'assets/ai.png',
                   ),

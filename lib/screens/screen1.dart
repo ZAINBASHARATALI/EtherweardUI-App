@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:ethelweard95/screens/screen3.dart';
+import 'package:flippy/flippy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -7,12 +9,12 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:inner_shadow_widget/inner_shadow_widget.dart';
 
 import 'package:ethelweard95/screens/home.dart';
-import 'package:ethelweard95/screens/screen3.dart';
 import 'package:ethelweard95/utils/colors.dart';
 import 'package:ethelweard95/utils/context.dart';
 import 'package:ethelweard95/widgets/filteritem.dart';
 
 RxDouble opacity = 1.0.obs;
+FlipperController fpCont = FlipperController();
 
 class ScreenOne extends StatefulWidget {
   const ScreenOne({super.key});
@@ -23,10 +25,22 @@ class ScreenOne extends StatefulWidget {
 
 class _ScreenOneState extends State<ScreenOne> {
   late final PageController pgCont;
+  final List<String> images = [
+    'assets/venice.jpg',
+    'assets/bigben.jpg',
+    'assets/rome.jpg'
+  ];
+  final List<String> places = ['Venice, Italy', 'London, UK', 'Rome'];
+  final List<String> userNames = [
+    '@RebeccaWilson',
+    '@ZainBasharat',
+    '@RabiyaYazdani'
+  ];
   int pageVal = 0;
   @override
   void initState() {
     pgCont = PageController();
+
     listenToController();
     super.initState();
   }
@@ -49,27 +63,52 @@ class _ScreenOneState extends State<ScreenOne> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      scrollDirection: Axis.vertical,
-      controller: pgCont,
-      itemCount: 3,
-      itemBuilder: (context, index) =>
-          const VerticalWidget(imagePath: 'assets/venice.jpg'),
+    return Flipper(
+      showShadow: false,
+      margin: const EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
+      height: context.height,
+      width: context.width,
+      back: ScreenThree(
+        bgImagePath: images[pageVal],
+      ),
+      controller: fpCont,
+      front: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Expanded(
+            child: PageView.builder(
+              scrollDirection: Axis.vertical,
+              controller: pgCont,
+              itemCount: 3,
+              itemBuilder: (context, index) => VerticalWidget(
+                imagePath: images[index],
+                place: places[index],
+                userName: userNames[index],
+              ),
+            ),
+          ),
+          const NavBar()
+        ],
+      ),
     );
   }
 }
 
 class VerticalWidget extends StatelessWidget {
   final String imagePath;
+  final String place;
+  final String userName;
   const VerticalWidget({
     Key? key,
     required this.imagePath,
+    required this.place,
+    required this.userName,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: context.height * 0.9,
       width: context.width,
       color: AppColors.black,
       child: Stack(
@@ -87,7 +126,7 @@ class VerticalWidget extends StatelessWidget {
           ),
           SizedBox(
             width: context.width,
-            height: context.height * 0.9,
+            height: context.height * 1,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -106,19 +145,17 @@ class VerticalWidget extends StatelessWidget {
                 SizedBox(
                   height: context.height * 0.8,
                   width: context.width,
-                  child: PageView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: pageCont,
-                    children: [
-                      ObxValue<RxDouble>((v) {
-                        return Opacity(
-                            opacity: v.value,
-                            child: const BottomTextAndButtons());
-                      }, opacity),
-                      ScreenThree(pageCont: pageCont),
-                    ],
-                  ),
+                  child: ObxValue<RxDouble>((v) {
+                    return Opacity(
+                        opacity: v.value,
+                        child: BottomTextAndButtons(
+                          place: place,
+                          userName: userName,
+                          bgImagePath: imagePath,
+                        ));
+                  }, opacity),
                 ),
+                SizedBox(height: context.height * 0.1),
               ],
             ),
           ),
@@ -129,8 +166,15 @@ class VerticalWidget extends StatelessWidget {
 }
 
 class BottomTextAndButtons extends StatelessWidget {
-  const BottomTextAndButtons({Key? key}) : super(key: key);
-
+  final String place;
+  final String userName;
+  final String bgImagePath;
+  const BottomTextAndButtons({
+    Key? key,
+    required this.place,
+    required this.userName,
+    required this.bgImagePath,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -146,13 +190,13 @@ class BottomTextAndButtons extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Venice, Italy', style: context.bold24),
+                    Text(place, style: context.bold24),
                     const SizedBox(height: 6),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Image.asset('assets/profilepic.png', scale: 2.85),
-                        Text('@RebeccaWilson', style: context.regular14),
+                        Text(userName, style: context.regular14),
                       ],
                     )
                   ],
@@ -183,9 +227,7 @@ class BottomTextAndButtons extends StatelessWidget {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      pageCont.animateToPage(1,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.linear);
+                      fpCont.flipLeft();
                     },
                     child: Container(
                       height: 38,

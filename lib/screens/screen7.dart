@@ -1,6 +1,8 @@
+import 'package:ethelweard95/controllers/navcontroller.dart';
 import 'package:ethelweard95/utils/colors.dart';
 import 'package:ethelweard95/utils/context.dart';
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 
 class ScreenSeven extends StatelessWidget {
   const ScreenSeven({super.key});
@@ -30,6 +32,7 @@ class ScreenSeven extends StatelessWidget {
                   alignment: Alignment.bottomLeft,
                   child: GestureDetector(
                     onTap: () {
+                      Get.find<NavController>().setNav(0);
                       Navigator.pop(context);
                     },
                     child: Image.asset(
