@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:ethelweard95/utils/colors.dart';
 import 'package:ethelweard95/utils/context.dart';
 
+import '../widgets/ImagesPickerWidget.dart';
+
 class ScreenTwo extends StatelessWidget {
   const ScreenTwo({super.key});
 
@@ -34,7 +36,7 @@ class ScreenTwo extends StatelessWidget {
                     )
                   ],
                 ),
-                const ImagesPickerWidget(),
+                ImagesPickerWidget(),
                 Text(
                   'Tag Location',
                   style: context.bold16,
@@ -102,12 +104,7 @@ class HashTag extends StatelessWidget {
 
 class LocationTagWidget extends StatelessWidget {
   const LocationTagWidget({super.key});
-  static const List<String> cities = [
-    'Amsterdam',
-    'Munich',
-    'Bavaria',
-    'Stutgard'
-  ];
+  static const List<String> cities = ['Amsterdam', 'Munich', 'Bavaria', 'Stutgard'];
 
   @override
   Widget build(BuildContext context) {
@@ -178,89 +175,12 @@ class TextFieldWidget extends StatelessWidget {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: hintText,
-                hintStyle: context.regular14
-                    .copyWith(color: AppColors.black.withOpacity(0.6)),
+                hintStyle: context.regular14.copyWith(color: AppColors.black.withOpacity(0.6)),
               ),
             ),
           ),
           suffixIcon ?? const SizedBox.shrink()
         ],
-      ),
-    );
-  }
-}
-
-class ImagesPickerWidget extends StatelessWidget {
-  const ImagesPickerWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 25, bottom: 10),
-      height: context.height * 0.16 + 20,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(0),
-              scrollDirection: Axis.horizontal,
-              children: [
-                const ImageItem(
-                  imagePath: 'assets/stars.jpg',
-                ),
-                const ImageItem(
-                  imagePath: 'assets/stars.jpg',
-                ),
-                const ImageItem(
-                  imagePath: 'assets/stars.jpg',
-                ),
-                Container(
-                  height: context.height * 0.16,
-                  width: context.height * 0.09,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: AppColors.lightGrey,
-                  ),
-                  alignment: Alignment.center,
-                  child: Icon(
-                    Icons.add,
-                    color: AppColors.black.withOpacity(0.4),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Text(
-              '  2/5 Photo',
-              style: context.regular12
-                  .copyWith(color: AppColors.black.withOpacity(0.6)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ImageItem extends StatelessWidget {
-  final String imagePath;
-  const ImageItem({Key? key, required this.imagePath}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 15),
-      height: context.height * 0.16,
-      width: context.height * 0.16,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: AppColors.black,
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: AssetImage(imagePath),
-        ),
       ),
     );
   }

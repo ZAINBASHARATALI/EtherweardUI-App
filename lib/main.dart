@@ -10,12 +10,12 @@ import 'package:google_fonts/google_fonts.dart';
 void main() {
   Get.lazyPut(() => NavController());
 
-  runApp(
-    DevicePreview(
-      enabled: kDebugMode,
-      builder: (context) => const MyApp(), // Wrap your app
-    ),
-  );
+  runApp(const MyApp()
+      // DevicePreview(
+      //   enabled: kDebugMode,
+      //   builder: (context) => const MyApp(), // Wrap your app
+      // ),
+      );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,10 +23,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MaterialApp(
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
