@@ -1,11 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:ethelweard95/controllers/navcontroller.dart';
 import 'package:ethelweard95/screens/screen3.dart';
 import 'package:flippy/flippy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/instance_manager.dart';
 import 'package:inner_shadow_widget/inner_shadow_widget.dart';
 
 import 'package:ethelweard95/screens/home.dart';
@@ -46,7 +48,16 @@ class _ScreenOneState extends State<ScreenOne> {
   }
 
   void listenToController() {
+    fpCont.addListener(() {
+      pgCont =
+          PageController(initialPage: Get.find<NavController>().page.value);
+    });
     pgCont.addListener(() {
+      if (pageVal != pgCont.page!.abs().toInt()) {
+        setState(() {
+          pageVal = pgCont.page!.abs().toInt();
+        });
+      }
       if (pgCont.position.userScrollDirection != ScrollDirection.forward) {
         var val = pgCont.page!;
         var d = int.parse(val.toStringAsFixed(1).split('.')[1]);
@@ -70,17 +81,20 @@ class _ScreenOneState extends State<ScreenOne> {
       height: context.height,
       width: context.width,
       back: ScreenThree(
-        bgImagePath: images[pageVal],
+        bgImagePath: images[Get.find<NavController>().page.value],
       ),
       controller: fpCont,
       front: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Expanded(
+          SizedBox(
             child: PageView.builder(
               scrollDirection: Axis.vertical,
               controller: pgCont,
               itemCount: 3,
+              onPageChanged: (val) {
+                Get.find<NavController>().page.value = val;
+              },
               itemBuilder: (context, index) => VerticalWidget(
                 imagePath: images[index],
                 place: places[index],
@@ -109,6 +123,7 @@ class VerticalWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      //height: context.height * 0.9,
       width: context.width,
       color: AppColors.black,
       child: Stack(
